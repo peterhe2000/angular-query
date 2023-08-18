@@ -17,6 +17,7 @@
     "@angular/platform-browser": "~15.0.0",
     "@angular/platform-browser-dynamic": "~15.0.0",
     "@angular/router": "~15.0.0",
+    "@ngneat/query": "^1.0.0-beta.19",
     "@nrwl/angular": "15.4.8",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
