@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 /* eslint-disable */
 
@@ -586,7 +586,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
               </svg>
             </a>
             <a
-              href="https://nx.dev/angular-tutorial/1-code-generation?utm_source=nx-project"
+              href="https://nx.dev/angular-tutorial/01-create-application?utm_source=nx-project"
               target="_blank"
               rel="noreferrer"
               class="list-item-link"
@@ -842,6 +842,9 @@ nx affected:e2e</pre>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,
 })
-export class NxWelcomeComponent {}
+export class NxWelcomeComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit(): void {}
+}

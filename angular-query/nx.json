@@ -38,6 +38,9 @@
     ],
     "sharedGlobals": []
   },
+  "cli": {
+    "packageManager": "npm"
+  },
   "generators": {
     "@nrwl/angular:application": {
       "style": "scss",

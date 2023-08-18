@@ -1,22 +1,25 @@
 {
   "name": "angular-query",
-  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "./src",
+  "sourceRoot": "apps/angular-query/src",
   "prefix": "angular-query",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/angular-query",
-        "index": "./src/index.html",
-        "main": "./src/main.ts",
-        "polyfills": ["zone.js"],
-        "tsConfig": "./tsconfig.app.json",
+        "outputPath": "dist/apps/angular-query",
+        "index": "apps/angular-query/src/index.html",
+        "main": "apps/angular-query/src/main.ts",
+        "polyfills": "apps/angular-query/src/polyfills.ts",
+        "tsConfig": "apps/angular-query/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["./src/favicon.ico", "./src/assets"],
-        "styles": ["./src/styles.scss"],
+        "assets": [
+          "apps/angular-query/src/favicon.ico",
+          "apps/angular-query/src/assets"
+        ],
+        "styles": ["apps/angular-query/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -31,6 +34,12 @@
               "type": "anyComponentStyle",
               "maximumWarning": "2kb",
               "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/angular-query/src/environments/environment.ts",
+              "with": "apps/angular-query/src/environments/environment.prod.ts"
             }
           ],
           "outputHashing": "all"
@@ -66,16 +75,18 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["./src/**/*.ts", "./src/**/*.html"]
+        "lintFilePatterns": [
+          "apps/angular-query/**/*.ts",
+          "apps/angular-query/**/*.html"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectName}"],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "jest.config.ts",
+        "jestConfig": "apps/angular-query/jest.config.ts",
         "passWithNoTests": true
       }
     }
