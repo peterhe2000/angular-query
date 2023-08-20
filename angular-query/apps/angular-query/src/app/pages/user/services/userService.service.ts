@@ -53,7 +53,9 @@ export class UserService {
   }
 
   createUser({ name }: { name: string }) {
-    return this.http.post<{ success: boolean }>(`users`, { name }).pipe(
+    let url = `${this.baseUrl}users`;
+    const newUser: User = { id: null, name: name };
+    return this.http.post<{ success: boolean }>(url, newUser).pipe(
       tap((newName) => {
         // Invalidate to refetch
         this.queryClient.invalidateQueries(['users']);
