@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit
+} from '@angular/core';
 import { UserService } from '../../services/userService.service';
 
 @Component({
@@ -7,9 +11,11 @@ import { UserService } from '../../services/userService.service';
   styleUrls: ['./user-list-child-child.component.scss'],
 })
 export class UserListChildChildComponent implements OnInit {
+  private userService = inject(UserService)
+
   // @ts-ignore
   public users$;
-  constructor(private userService: UserService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.users$ = this.userService.getUsers().result$;

@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import {
   addEntity,
   QueryClientService,
+  UseMutation,
   UseQuery
 } from '@ngneat/query';
 import { Observable } from 'rxjs';
@@ -24,6 +25,7 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 })
 export class UserService {
   private queryClient = inject(QueryClientService);
+  private useMutation = inject(UseMutation);
 
   constructor(
     private http: HttpClient,
@@ -52,15 +54,16 @@ export class UserService {
     });
   }
 
-  createUser({ name }: { name: string }) {
-    let url = `${this.baseUrl}users`;
-    const newUser: User = { id: null, name: name };
-    return this.http.post<{ success: boolean }>(url, newUser).pipe(
-      tap((newName) => {
-        // Invalidate to refetch
-        this.queryClient.invalidateQueries(['users']);
-      })
-    );
+  createUser() {
+    return this.useMutation(({ name }: { name: string }) => {
+      let url = `${this.baseUrl}users`;
+      const newUser: User = { id: null, name: name };
+      return this.http.post<{ success: boolean }>(url, newUser).pipe(
+        tap((newName) => {
+          this.queryClient.invalidateQueries(['users']);
+        })
+      );
+    })
   }
 
   // getUsers(isOdd: boolean = false): Observable<User[]> {

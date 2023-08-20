@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { useMutationResult } from '@ngneat/query';
+import {
+  Component,
+  inject,
+  OnInit
+} from '@angular/core';
 import { UserService } from '../../services/userService.service';
 
 @Component({
@@ -8,17 +11,20 @@ import { UserService } from '../../services/userService.service';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
-  addTodoMutation = useMutationResult();
+  private userService = inject(UserService)
+  addTodoMutation$ = this.userService.createUser();
   public name = '';
 
-  constructor(private userService: UserService) {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   // @ts-ignore
   public onAddUser(name) {
-    this.userService.createUser({ name })
-      .pipe(this.addTodoMutation.track())
-      .subscribe();
+    this.addTodoMutation$.mutate({ name }).then((res) => {
+      console.log(res.success);
+    });
   }
 }

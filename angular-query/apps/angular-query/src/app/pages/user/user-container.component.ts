@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   OnInit
 } from '@angular/core';
 import { UserService } from './services/userService.service';
@@ -12,8 +13,9 @@ import { UserService } from './services/userService.service';
 export class UserContainerComponent implements OnInit {
   // @ts-ignore
   public users$;
+  private userService = inject(UserService)
 
-  constructor(private userService: UserService) {
+  constructor() {
   }
 
   ngOnInit(): void {
