@@ -12,7 +12,8 @@ import { UserService } from '../../services/userService.service';
 })
 export class AddUserComponent implements OnInit {
   private userService = inject(UserService)
-  addTodoMutation$ = this.userService.createUser();
+
+  public addTodoMutation$ = this.userService.createUser();
   public name = '';
 
   constructor() {
