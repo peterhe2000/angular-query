@@ -1,1 +1,11 @@
-<p>user-container works!</p>
+<ng-container *subscribe="users$ as users">
+  <div *ngIf="users.isLoading">IsLoading....</div>
+
+  <p *ngIf="users.isError">Error...</p>
+
+  <ul *ngIf="users.isSuccess">
+    <li *ngFor="let user of users.data.users">
+      {{ user | json}}
+    </li>
+  </ul>
+</ng-container>

@@ -12,10 +12,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { API_BASE_URL } from './pages/user/services/userService.service';
 import { UserContainerComponent } from './pages/user/user-container.component';
+import { SubscribeDirective } from '@ngneat/subscribe';
 
 @NgModule({
   declarations: [AppComponent, UserContainerComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, SubscribeDirective],
   providers: [
     {
       provide: API_BASE_URL,
