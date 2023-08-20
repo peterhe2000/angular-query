@@ -1,8 +1,20 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import {
+  inject,
+  Inject,
+  Injectable,
+  InjectionToken
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UseQuery } from '@ngneat/query';
+import {
+  addEntity,
+  QueryClientService,
+  UseQuery
+} from '@ngneat/query';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  map,
+  tap
+} from 'rxjs/operators';
 import { User } from '../models/user';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
@@ -11,6 +23,8 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
   providedIn: 'root',
 })
 export class UserService {
+  private queryClient = inject(QueryClientService);
+
   constructor(
     private http: HttpClient,
     private useQuery: UseQuery,
@@ -22,7 +36,7 @@ export class UserService {
     if (isOdd) {
       url = `${url}?isodd=${true}`;
     }
-    return this.useQuery(['todos'], () => {
+    return this.useQuery(['users'], () => {
       return this.http.get<{ users: User[] }>(
         url
       );
@@ -31,11 +45,20 @@ export class UserService {
 
   getUserById(userId: number) {
     let url = `${this.baseUrl}users/${userId}`;
-    return this.useQuery(['todo', userId], () => {
+    return this.useQuery(['user', userId], () => {
       return this.http.get<{ users: User[] }>(
         url
       );
     });
+  }
+
+  createUser({ name }: { name: string }) {
+    return this.http.post<{ success: boolean }>(`users`, { name }).pipe(
+      tap((newName) => {
+        // Invalidate to refetch
+        this.queryClient.invalidateQueries(['users']);
+      })
+    );
   }
 
   // getUsers(isOdd: boolean = false): Observable<User[]> {
