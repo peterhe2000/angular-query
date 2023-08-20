@@ -29,6 +29,15 @@ export class UserService {
     });
   }
 
+  getUserById(userId: number) {
+    let url = `${this.baseUrl}users/${userId}`;
+    return this.useQuery(['todo', userId], () => {
+      return this.http.get<{ users: User[] }>(
+        url
+      );
+    });
+  }
+
   // getUsers(isOdd: boolean = false): Observable<User[]> {
   //   let url = `${this.baseUrl}users`;
   //   if (isOdd) {

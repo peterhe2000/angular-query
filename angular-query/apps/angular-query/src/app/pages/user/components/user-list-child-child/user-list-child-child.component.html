@@ -1,3 +1,4 @@
+<p>user-list-child-child works!</p>
 <ng-container *subscribe="users$ as users">
   <div *ngIf="users.isLoading">IsLoading....</div>
 
@@ -8,5 +9,4 @@
       {{ user | json}}
     </li>
   </ul>
-  <angular-query-user-list></angular-query-user-list>
 </ng-container>
