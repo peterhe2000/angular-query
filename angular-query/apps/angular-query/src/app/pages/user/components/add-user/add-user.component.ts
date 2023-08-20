@@ -1,9 +1,9 @@
 import {
   Component,
-  inject,
-  OnInit
+  EventEmitter,
+  OnInit,
+  Output
 } from '@angular/core';
-import { UserService } from '../../services/userService.service';
 
 @Component({
   selector: 'angular-query-add-user',
@@ -11,9 +11,8 @@ import { UserService } from '../../services/userService.service';
   styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit {
-  private userService = inject(UserService)
+  @Output() addUser = new EventEmitter<{ name: string }>();
 
-  public addTodoMutation$ = this.userService.createUser();
   public name = '';
 
   constructor() {
@@ -24,8 +23,6 @@ export class AddUserComponent implements OnInit {
 
   // @ts-ignore
   public onAddUser(name) {
-    this.addTodoMutation$.mutate({ name }).then((res) => {
-      console.log(res.success);
-    });
+    this.addUser.emit({ name });
   }
 }

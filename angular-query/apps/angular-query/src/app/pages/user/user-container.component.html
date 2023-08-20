@@ -1,13 +1,19 @@
-<ng-container *subscribe="users$ as users">
-  <div *ngIf="users.isLoading">IsLoading....</div>
+<ng-container *ngIf="(isLoadingUser$ | async) || (isCreatingUser$ | async)">
+  isLoading
+</ng-container>
+<ng-container *subscribe="addTodoMutation$.result$ as addTodoMutation">
+  {{ addTodoMutation.isLoading ? 'MutationLoading' : '' }}
+</ng-container>
+<angular-query-add-user (addUser)="onAddUser($event)"></angular-query-add-user>
+<ng-container *subscribe="users_Result$ as users_Results">
+  <div *ngIf="users_Results.isLoading">IsLoading....</div>
+  <p *ngIf="users_Results.isError">Error...</p>
 
-  <p *ngIf="users.isError">Error...</p>
-
-  <ul *ngIf="users.isSuccess">
-    <li *ngFor="let user of users.data.users">
+  <ul *ngIf="users_Results.isSuccess">
+    <li *ngFor="let user of users_Results.data.users">
       {{ user | json}}
     </li>
   </ul>
   <angular-query-user-list></angular-query-user-list>
 </ng-container>
-<angular-query-add-user></angular-query-add-user>
+
