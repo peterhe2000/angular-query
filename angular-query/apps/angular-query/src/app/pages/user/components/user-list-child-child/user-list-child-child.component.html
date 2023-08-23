@@ -1,12 +1,22 @@
 <p>user-list-child-child works!</p>
-<ng-container *subscribe="users$ as users">
-  <div *ngIf="users.isLoading">IsLoading....</div>
+<ng-container *subscribe="users_Result$ as users_Results">
+  <div *ngIf="users_Results.isLoading">IsLoading....</div>
+  <p *ngIf="users_Results.isError">Error...</p>
 
-  <p *ngIf="users.isError">Error...</p>
-
-  <ul *ngIf="users.isSuccess">
-    <li *ngFor="let user of users.data.users">
+  <ul *ngIf="users_Results.isSuccess">
+    <li *ngFor="let user of users_Results.data">
       {{ user | json}}
+    </li>
+  </ul>
+</ng-container>
+<ng-container *subscribe="todos_Result$ as todos_Result">
+  TODOs:
+  <div *ngIf="todos_Result.isLoading">IsLoading....</div>
+  <p *ngIf="todos_Result.isError">Error...</p>
+
+  <ul *ngIf="todos_Result.isSuccess">
+    <li *ngFor="let todo of todos_Result.data | slice:0:5">
+      {{ todo | json}}
     </li>
   </ul>
 </ng-container>

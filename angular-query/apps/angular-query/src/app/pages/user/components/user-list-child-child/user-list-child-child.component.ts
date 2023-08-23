@@ -3,6 +3,17 @@ import {
   inject,
   OnInit
 } from '@angular/core';
+import { QueryObserverResult } from '@tanstack/query-core';
+import {
+  forkJoin,
+  Observable
+} from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+  Todo,
+  User
+} from '../../models';
+import { TodosService } from '../../services/todos.service';
 import { UserService } from '../../services/userService.service';
 
 @Component({
@@ -12,12 +23,19 @@ import { UserService } from '../../services/userService.service';
 })
 export class UserListChildChildComponent implements OnInit {
   private userService = inject(UserService)
+  private todosService = inject(TodosService)
 
-  // @ts-ignore
-  public users$;
+  public users_Result$:  Observable<QueryObserverResult<User[]>> = this.userService.getUsers();
+  public todos_Result$:  Observable<QueryObserverResult<Todo[]>> = this.todosService.getTodos();
+
   constructor() {}
 
   ngOnInit(): void {
-    this.users$ = this.userService.getUsers().result$;
+    const ui_results$: Observable<[QueryObserverResult<User[]>, QueryObserverResult<Todo[]>]> = forkJoin([
+      this.users_Result$,
+      this.todos_Result$
+    ]).pipe(
+      map(([users_Result, todos_Result]) => [users_Result, todos_Result])
+    );
   }
 }

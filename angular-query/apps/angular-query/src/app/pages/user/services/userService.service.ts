@@ -11,12 +11,13 @@ import {
   UseMutation,
   UseQuery
 } from '@ngneat/query';
+import { QueryObserverResult } from '@tanstack/query-core';
 import { Observable } from 'rxjs';
 import {
   map,
   tap
 } from 'rxjs/operators';
-import { User } from '../models/user';
+import { User } from '../models';
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
@@ -31,27 +32,25 @@ export class UserService {
     private http: HttpClient,
     private useQuery: UseQuery,
     @Inject(API_BASE_URL) private baseUrl?: string
-  ) {}
+  ) {
+  }
 
-  public getUsers(isOdd: boolean = false) {
+  public getUsers(): Observable<QueryObserverResult<User[]>> {
     let url = `${this.baseUrl}users`
-    if (isOdd) {
-      url = `${url}?isodd=${true}`;
-    }
     return this.useQuery(['users'], () => {
-      return this.http.get<{ users: User[] }>(
-        url
-      );
-    });
+      return this.http.get<User[]>(url);
+    }).result$;
   }
 
   getUserById(userId: number) {
-    let url = `${this.baseUrl}users/${userId}`;
-    return this.useQuery(['user', userId], () => {
-      return this.http.get<{ users: User[] }>(
-        url
-      );
-    });
+    const users_Result$ = this.getUsers();
+    return users_Result$.pipe(map(r => r?.data?.find(u => u.id === userId) ?? null));
+    // let url = `${this.baseUrl}users/${userId}`;
+    // return this.useQuery(['user', userId], () => {
+    //   return this.http.get<{ users: User[] }>(
+    //     url
+    //   );
+    // });
   }
 
   createUser() {

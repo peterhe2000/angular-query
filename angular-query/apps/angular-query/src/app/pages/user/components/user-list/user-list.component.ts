@@ -3,6 +3,9 @@ import {
   inject,
   OnInit
 } from '@angular/core';
+import { QueryObserverResult } from '@tanstack/query-core';
+import { Observable } from 'rxjs';
+import { User } from '../../models';
 import { UserService } from '../../services/userService.service';
 
 @Component({
@@ -13,11 +16,8 @@ import { UserService } from '../../services/userService.service';
 export class UserListComponent implements OnInit {
   private userService = inject(UserService)
 
-  // @ts-ignore
-  public users$;
+  public users_Result$:  Observable<QueryObserverResult<User[]>> = this.userService.getUsers();
   constructor() {}
 
-  ngOnInit(): void {
-    this.users$ = this.userService.getUsers().result$;
-  }
+  ngOnInit(): void {}
 }
