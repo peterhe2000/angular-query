@@ -27,7 +27,7 @@ export class TodosService {
     }).result$;
   }
 
-  getTodosWithOptions(options?: { refetchInterval: number }) {
+  getTodosWithOptions(options?: { refetchInterval: number }): Observable<QueryObserverResult<Todo[]>> {
     return this.useQuery(
       ['todos'],
       () => {
@@ -36,7 +36,7 @@ export class TodosService {
         );
       },
       options
-    );
+    ).result$;
   }
 
   addTodoOriginal() {
@@ -61,11 +61,11 @@ export class TodosService {
       );
   }
 
-  getTodo(id: number) {
+  getTodo(id: number): Observable<QueryObserverResult<Todo>> {
     return this.useQuery(['todo', id], () => {
       return this.http
         .get<Todo>(`https://jsonplaceholder.typicode.com/todos/${id}`)
         .pipe(delay(1000));
-    });
+    }).result$;
   }
 }
