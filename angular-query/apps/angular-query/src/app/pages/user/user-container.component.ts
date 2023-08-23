@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { QueryObserverResult } from '@tanstack/query-core';
 import {
-  forkJoin,
+  combineLatest,
   Observable,
 } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -27,9 +27,9 @@ export class UserContainerComponent implements OnInit {
 
   public addTodoMutation$ = this.userService.createUser();
   public addTodoMutation_Result$ = this.addTodoMutation$.result$;
-  // @ts-ignore
-  public users_Result$:  Observable<QueryObserverResult<User[]>> = this.userService.getUsers();
-  public todos_Result$:  Observable<QueryObserverResult<Todo[]>> = this.todosService.getTodos();
+
+  public users_Result$: Observable<QueryObserverResult<User[]>> = this.userService.getUsers();
+  public todos_Result$: Observable<QueryObserverResult<Todo[]>> = this.todosService.getTodos();
   public isLoading$!: Observable<boolean>;
   public isCreatingUser$!: Observable<boolean>;
 
@@ -37,13 +37,7 @@ export class UserContainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const ui_results$: Observable<[QueryObserverResult<User[]>, QueryObserverResult<Todo[]>]> = forkJoin([
-      this.users_Result$,
-      this.todos_Result$
-    ]).pipe(
-      map(([users_Result, todos_Result]) => [users_Result, todos_Result])
-    );
-    this.isLoading$ = this.getLoading$(ui_results$);
+    this.isLoading$ = this.getLoading$(this.users_Result$, this.todos_Result$);
     this.isCreatingUser$ = this.addTodoMutation_Result$.pipe(map(result => result.isLoading));
   }
 
@@ -54,7 +48,14 @@ export class UserContainerComponent implements OnInit {
     });
   }
 
-  private getLoading$(ui_results$: Observable<[QueryObserverResult<User[]>, QueryObserverResult<Todo[]>]>) {
-    return ui_results$.pipe(map(([users_Result, todos_Result]) => users_Result.isLoading || todos_Result.isLoading));
+  private getLoading$(users_Result$: Observable<QueryObserverResult<User[]>>, todos_Result$: Observable<QueryObserverResult<Todo[]>>) {
+    return combineLatest([
+      users_Result$,
+      todos_Result$]
+    ).pipe(
+      map(([users_Result, todos_Result]) => {
+        return users_Result.isLoading || todos_Result.isLoading;
+      })
+    )
   }
 }
