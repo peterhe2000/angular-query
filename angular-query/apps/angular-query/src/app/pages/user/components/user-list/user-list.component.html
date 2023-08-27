@@ -1,5 +1,5 @@
 <p>user-list works!</p>
-<ng-container *subscribe="users_Result$ as users_Results">
+<ng-container *ngIf="users_Result$ | async as users_Results">
   <div *ngIf="users_Results.isLoading">IsLoading....</div>
   <p *ngIf="users_Results.isError">Error...</p>
 

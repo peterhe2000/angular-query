@@ -1,27 +1,27 @@
-<ng-container *ngIf="(isLoading$ | async) || (isCreatingUser$ | async)">
+<ng-container *ngIf="isLoading || isCreatingUser">
   isLoading
 </ng-container>
-<ng-container *subscribe="addTodoMutation$.result$ as addTodoMutation">
+<ng-container *ngIf="addTodoMutation">
   {{ addTodoMutation.isLoading ? 'MutationLoading' : '' }}
 </ng-container>
 <angular-query-add-user (addUser)="onAddUser($event)"></angular-query-add-user>
-<ng-container *subscribe="users_Result$ as users_Results">
+<ng-container *ngIf="users_Result">
   container works
-  <div *ngIf="users_Results.isLoading">IsLoading....</div>
-  <p *ngIf="users_Results.isError">Error...</p>
+  <div *ngIf="users_Result?.isLoading">IsLoading....</div>
+  <p *ngIf="users_Result?.isError">Error...</p>
 
-  <ul *ngIf="users_Results.isSuccess">
-    <li *ngFor="let user of users_Results.data">
+  <ul *ngIf="users_Result?.isSuccess">
+    <li *ngFor="let user of users_Result.data">
       {{ user | json}}
     </li>
   </ul>
   <angular-query-user-list></angular-query-user-list>
 </ng-container>
-<ng-container *subscribe="todos_Result$ as todos_Result">
-  <div *ngIf="todos_Result.isLoading">IsLoading....</div>
-  <p *ngIf="todos_Result.isError">Error...</p>
+<ng-container *ngIf="todos_Result">
+  <div *ngIf="todos_Result?.isLoading">IsLoading....</div>
+  <p *ngIf="todos_Result?.isError">Error...</p>
   TODOs:
-  <ul *ngIf="todos_Result.isSuccess">
+  <ul *ngIf="todos_Result?.isSuccess">
     <li *ngFor="let todo of todos_Result.data | slice:0:5">
       {{ todo | json}}
     </li>

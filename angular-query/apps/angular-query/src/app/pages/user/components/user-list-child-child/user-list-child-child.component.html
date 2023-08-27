@@ -1,5 +1,5 @@
 <p>user-list-child-child works!</p>
-<ng-container *subscribe="users_Result$ as users_Results">
+<ng-container *ngIf="users_Result$ | async as users_Results">
   <div *ngIf="users_Results.isLoading">IsLoading....</div>
   <p *ngIf="users_Results.isError">Error...</p>
 
@@ -9,7 +9,7 @@
     </li>
   </ul>
 </ng-container>
-<ng-container *subscribe="todos_Result$ as todos_Result">
+<ng-container *ngIf="todos_Result$ | async as todos_Result">
   TODOs:
   <div *ngIf="todos_Result.isLoading">IsLoading....</div>
   <p *ngIf="todos_Result.isError">Error...</p>
