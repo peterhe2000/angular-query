@@ -1,11 +1,11 @@
-<ng-container *ngIf="isLoading || isCreatingUser">
+<ng-container *ngIf="(isLoading$ | async) || (isAddingUser$ | async) || (isAddingTodo$ | async)">
   isLoading
 </ng-container>
-<ng-container *ngIf="addTodoMutation">
-  {{ addTodoMutation.isLoading ? 'MutationLoading' : '' }}
+<ng-container *ngIf="addUserMutation_Result$ | async as addUserMutation_Result">
+  {{ addUserMutation_Result.isLoading ? 'addUserMutationLoading' : '' }}
 </ng-container>
 <angular-query-add-user (addUser)="onAddUser($event)"></angular-query-add-user>
-<ng-container *ngIf="users_Result">
+<ng-container *ngIf="users_Result$ | async as users_Result">
   container works
   <div *ngIf="users_Result?.isLoading">IsLoading....</div>
   <p *ngIf="users_Result?.isError">Error...</p>
@@ -17,12 +17,16 @@
   </ul>
   <angular-query-user-list></angular-query-user-list>
 </ng-container>
-<ng-container *ngIf="todos_Result">
+<!--<ng-container *ngIf="addTodoMutation_Result$ | async as addTodoMutation_Result">-->
+<!--  {{ addTodoMutation_Result.isLoading ? 'addTodoMutationLoading' : '' }}-->
+<!--</ng-container>-->
+<!--<button (click)="onAddTodo()">add todo</button> <br/>-->
+<ng-container *ngIf="todos_Result$ | async as todos_Result">
   <div *ngIf="todos_Result?.isLoading">IsLoading....</div>
   <p *ngIf="todos_Result?.isError">Error...</p>
-  TODOs:
+  container TODOs last 5 items:
   <ul *ngIf="todos_Result?.isSuccess">
-    <li *ngFor="let todo of todos_Result.data | slice:0:5">
+    <li *ngFor="let todo of todos_Result.data?.slice(-5)">
       {{ todo | json}}
     </li>
   </ul>

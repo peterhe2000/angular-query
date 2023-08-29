@@ -10,12 +10,12 @@
   </ul>
 </ng-container>
 <ng-container *ngIf="todos_Result$ | async as todos_Result">
-  TODOs:
+  user-list-child-child works TODOs last 5 items:
   <div *ngIf="todos_Result.isLoading">IsLoading....</div>
   <p *ngIf="todos_Result.isError">Error...</p>
 
   <ul *ngIf="todos_Result.isSuccess">
-    <li *ngFor="let todo of todos_Result.data | slice:0:5">
+    <li *ngFor="let todo of todos_Result.data?.slice(-5)">
       {{ todo | json}}
     </li>
   </ul>

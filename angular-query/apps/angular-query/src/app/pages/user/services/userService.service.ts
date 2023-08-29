@@ -53,7 +53,7 @@ export class UserService {
     // });
   }
 
-  createUser() {
+  addUser() {
     return this.useMutation(({ name }: { name: string }) => {
       let url = `${this.baseUrl}users`;
       const newUser: User = { id: null, name: name };
