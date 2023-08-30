@@ -17,10 +17,10 @@
   </ul>
   <angular-query-user-list></angular-query-user-list>
 </ng-container>
-<!--<ng-container *ngIf="addTodoMutation_Result$ | async as addTodoMutation_Result">-->
-<!--  {{ addTodoMutation_Result.isLoading ? 'addTodoMutationLoading' : '' }}-->
-<!--</ng-container>-->
-<!--<button (click)="onAddTodo()">add todo</button> <br/>-->
+<ng-container *ngIf="addTodoMutation_Result$ | async as addTodoMutation_Result">
+  {{ addTodoMutation_Result.isLoading ? 'addTodoMutationLoading' : '' }}
+</ng-container>
+<button (click)="onAddTodo()">add todo</button> <br/>
 <ng-container *ngIf="todos_Result$ | async as todos_Result">
   <div *ngIf="todos_Result?.isLoading">IsLoading....</div>
   <p *ngIf="todos_Result?.isError">Error...</p>

@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
-import { QueryClientService, UseMutation, UseQuery } from '@ngneat/query';
+import {
+  inject,
+  Injectable
+} from '@angular/core';
+import {
+  QueryClientService,
+  UseMutation,
+  UseQuery
+} from '@ngneat/query';
 import { QueryObserverResult } from '@tanstack/query-core';
 import {
   delay,
@@ -8,7 +15,6 @@ import {
   tap
 } from 'rxjs';
 import { Todo } from '../models';
-
 
 @Injectable({
   providedIn: 'root',
@@ -44,8 +50,15 @@ export class TodosService {
       return this.http
         .post<Todo>(`https://jsonplaceholder.typicode.com/todos`, { title })
         .pipe(
-          tap(() => {
-            this.queryClient.invalidateQueries(['todos']);
+          tap((newTodo) => {
+            // this is better which basic invalid current query and refetch
+            // this.queryClient.invalidateQueries(['todos']);
+
+            // Optimistically update
+            const todos = this.queryClient.getQueryData<Todo[]>(['todos']);
+            if (todos) {
+              this.queryClient.setQueryData<Todo[]>(['todos'], [...todos, newTodo]);
+            }
           })
         );
     });
