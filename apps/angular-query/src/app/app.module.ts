@@ -16,7 +16,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { QueryClientService } from '@ngneat/query';
+import {
+  provideQueryClientOptions,
+  QueryClientService
+} from '@ngneat/query';
 import { SubscribeDirective } from '@ngneat/subscribe';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -58,6 +61,13 @@ import { UserContainerComponent } from './pages/user/user-container.component';
       provide: API_BASE_URL,
       useValue: environment.api_base_url,
     },
+    provideQueryClientOptions({
+      defaultOptions: {
+        queries: {
+          staleTime: Infinity,
+        },
+      },
+    }),
     {
       provide: ENVIRONMENT_INITIALIZER,
       multi: true,

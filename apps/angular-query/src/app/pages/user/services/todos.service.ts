@@ -54,7 +54,6 @@ export class TodosService {
             // this is better which basic invalid current query and refetch
             // this.queryClient.invalidateQueries(['todos']);
 
-            // Optimistically update
             const todos = this.queryClient.getQueryData<Todo[]>(['todos']);
             if (todos) {
               this.queryClient.setQueryData<Todo[]>(['todos'], [...todos, newTodo]);
