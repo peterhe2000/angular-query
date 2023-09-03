@@ -31,3 +31,20 @@
     </li>
   </ul>
 </ng-container>
+<ng-container *ngIf="(allSuccess$ | async)">
+  All Success
+  <ng-container *ngIf="users_Result$ | async as users_Result">
+    <ul>
+      <li *ngFor="let user of users_Result.data">
+        {{ user | json}}
+      </li>
+    </ul>
+  </ng-container>
+  <ng-container *ngIf="todos_Result$ | async as todos_Result">
+    <ul>
+      <li *ngFor="let todo of todos_Result.data?.slice(-5)">
+        {{ todo | json}}
+      </li>
+    </ul>
+  </ng-container>
+</ng-container>

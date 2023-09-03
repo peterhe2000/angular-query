@@ -29,6 +29,7 @@ export class UserContainerComponent implements OnInit {
   private addUserMutation$ = this.userService.addUser();
   private addTodoMutation$ = this.todosService.addTodoOriginal();
 
+  public allSuccess$!: Observable<boolean>;
   public users_Result$: Observable<QueryObserverResult<User[]>> = this.userService.getUsers();
   public todos_Result$: Observable<QueryObserverResult<Todo[]>> = this.todosService.getTodos();
   public isLoading$!: Observable<boolean>;
@@ -44,6 +45,7 @@ export class UserContainerComponent implements OnInit {
     this.isLoading$ = this.getLoading$(this.users_Result$, this.todos_Result$);
     this.isAddingTodo$ = this.addTodoMutation_Result$.pipe(map(result => result.isLoading));
     this.isAddingUser$ = this.addUserMutation_Result$.pipe(map(result => result.isLoading));
+    this.allSuccess$ = this.getAllSuccess$(this.users_Result$, this.todos_Result$);
   }
 
   // @ts-ignore
@@ -66,6 +68,17 @@ export class UserContainerComponent implements OnInit {
     ).pipe(
       map(([users_Result, todos_Result]) => {
         return users_Result.isLoading || todos_Result.isLoading;
+      })
+    )
+  }
+
+  private getAllSuccess$(users_Result$: Observable<QueryObserverResult<User[]>>, todos_Result$: Observable<QueryObserverResult<Todo[]>>) {
+    return combineLatest([
+      users_Result$,
+      todos_Result$]
+    ).pipe(
+      map(([users_Result, todos_Result]) => {
+        return users_Result.isSuccess && todos_Result.isSuccess;
       })
     )
   }
