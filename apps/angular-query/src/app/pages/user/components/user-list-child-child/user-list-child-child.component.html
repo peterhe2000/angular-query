@@ -20,3 +20,13 @@
     </li>
   </ul>
 </ng-container>
+<ng-container *ngIf="posts_Result$ | async as posts_Result">
+  <div *ngIf="posts_Result.isLoading">IsLoading....</div>
+  <p *ngIf="posts_Result.isError">Error...</p>
+
+  <ul *ngIf="posts_Result.isSuccess">
+    <li *ngFor="let post of posts_Result.data?.slice(-5)">
+      {{ post | json}}
+    </li>
+  </ul>
+</ng-container>

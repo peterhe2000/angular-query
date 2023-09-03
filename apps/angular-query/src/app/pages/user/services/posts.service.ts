@@ -2,14 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UseQuery } from '@ngneat/query';
 import { NgQueryObserverOptions } from '@ngneat/query/lib/query';
+import { QueryObserverResult } from '@tanstack/query-core';
 import { Observable, OperatorFunction } from 'rxjs';
-
-export interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import { Post } from '../models';
 
 type UseQueryOptionsPosts =
   | (Omit<
@@ -36,6 +31,14 @@ function withRxjsOperators<T>(operators: OperatorFunction<T, T>[]) {
 export class PostsService {
   private http = inject(HttpClient);
   private useQuery = inject(UseQuery);
+
+  getPosts(): Observable<QueryObserverResult<Post[]>> {
+    return this.useQuery(['posts'], () => {
+      return this.http.get<Post[]>(
+        'https://jsonplaceholder.typicode.com/posts'
+      );
+    }).result$;
+  }
 
   getAll(
     options?: UseQueryOptionsPosts,
