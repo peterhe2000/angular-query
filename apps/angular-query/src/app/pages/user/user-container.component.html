@@ -15,16 +15,16 @@ container works
     </li>
   </ul>
 </ng-container>
-<angular-query-add-user (addUser)="onAddUser($event)"></angular-query-add-user>
+<!--<angular-query-add-user (addUser)="onAddUser($event)"></angular-query-add-user>-->
 <ng-container *ngIf="users_Result$ | async as users_Result">
-  <div *ngIf="users_Result?.isLoading">IsLoading....</div>
-  <p *ngIf="users_Result?.isError">Error...</p>
+<!--  <div *ngIf="users_Result?.isLoading">IsLoading....</div>-->
+<!--  <p *ngIf="users_Result?.isError">Error...</p>-->
 
-  <ul *ngIf="users_Result?.isSuccess">
-    <li *ngFor="let user of users_Result.data">
-      {{ user | json}}
-    </li>
-  </ul>
+<!--  <ul *ngIf="users_Result?.isSuccess">-->
+<!--    <li *ngFor="let user of users_Result.data">-->
+<!--      {{ user | json}}-->
+<!--    </li>-->
+<!--  </ul>-->
   <angular-query-user-list></angular-query-user-list>
 </ng-container>
 <ng-container *ngIf="addTodoMutation_Result$ | async as addTodoMutation_Result">

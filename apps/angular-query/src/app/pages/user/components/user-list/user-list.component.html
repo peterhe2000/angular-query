@@ -1,14 +1,14 @@
 <p>user-list works!</p>
-<ng-container *ngIf="users_Result$ | async as users_Results">
-  <div *ngIf="users_Results.isLoading">IsLoading....</div>
-  <p *ngIf="users_Results.isError">Error...</p>
+<!--<ng-container *ngIf="users_Result$ | async as users_Results">-->
+<!--  <div *ngIf="users_Results.isLoading">IsLoading....</div>-->
+<!--  <p *ngIf="users_Results.isError">Error...</p>-->
 
-  <ul *ngIf="users_Results.isSuccess">
-    <li *ngFor="let user of users_Results.data">
-      {{ user | json}}
-    </li>
-  </ul>
-</ng-container>
+<!--  <ul *ngIf="users_Results.isSuccess">-->
+<!--    <li *ngFor="let user of users_Results.data">-->
+<!--      {{ user | json}}-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</ng-container>-->
 <ng-container *ngIf="posts_Result$ | async as posts_Result">
   <div *ngIf="posts_Result.isLoading">IsLoading....</div>
   <p *ngIf="posts_Result.isError">Error...</p>
